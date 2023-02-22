@@ -1,6 +1,6 @@
 # Traveling salesman problem with selenium scraper
 
-In this project was developed a scraper bot using selenium. This bot automatize the route search process between each pair in a set of locations using Open Street Maps. The bot also write the correspondent TSP optimization problem using the Miller, Tucker, and Zemlin formulation in AMPL to send the problem to the neos server and get the solution. Its also provided a simple colony ant optimization implementation to get rasonable good solutions without using the NEOS server.
+In this project was developed a scraper bot using selenium. This bot automatize the route search process between each pair in a set of locations using Open Street Map (https://www.openstreetmap.org). The bot also write the correspondent TSP optimization problem using the Miller, Tucker, and Zemlin formulation (https://dl.acm.org/doi/10.1145/321043.321046) in AMPL to send the problem to the NEOS server and get the solution. Its also provided a simple colony ant optimization implementation to get rasonable good solutions without using the NEOS server (https://neos-server.org/neos/).
 
 ### Usage
 
@@ -21,3 +21,5 @@ Once the config file is correcltly writen simply run the scraper file.
 ```{python}
 python3 scraper.py
 ```
+
+The scraper will use Open Street Maps to extract the distances between each pair of locations and write this distance matrix as a AMPL set of parameters in the tsp.dat file. When the scraping process is finalised the AMPL files will be sent to the NEOS server with your email. You wil recive a report when the solver finds the solution.
