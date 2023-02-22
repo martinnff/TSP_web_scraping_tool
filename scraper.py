@@ -1,11 +1,11 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.wait import WebDriverWait
-import pandas as pd
-import numpy as np
 from time import sleep
-import os
 from tqdm import tqdm
+import numpy as np
+import os
+
 
 
 with open('config.txt') as f:
