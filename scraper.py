@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 from time import sleep
 import os
+from tqdm import tqdm
 
 
 with open('config.txt') as f:
@@ -33,7 +34,6 @@ def get_km(html_source):
 
 
 website = 'https://www.openstreetmap.org/directions'
-path = '/home/martin/chromedriver_linux64/chromedriver'
 
 driver = webdriver.Chrome(path)
 driver.get(website)
@@ -42,9 +42,8 @@ driver.get(website)
 n = len(locations)
 distances = np.zeros([n,n])
 
-for i in range(len(locations)):
+for i in tqdm(range(len(locations))):
     for j in np.arange(i+1,len(locations)):
-
 
         text_area1 = WebDriverWait(driver, 1).until(
             lambda x: x.find_element('xpath','/html/body/div/div[1]/div[1]/form[2]/div[2]/div[2]/input'))
@@ -53,33 +52,29 @@ for i in range(len(locations)):
         text_area2 = WebDriverWait(driver, 1).until(
             lambda x: x.find_element('xpath','/html/body/div/div[1]/div[1]/form[2]/div[3]/div[2]/input'))
         text_area2.send_keys(locations[j])
-        sleep(0.005*i+0.5)
+        sleep(0.3)
 
         search = WebDriverWait(driver, 1).until(
             lambda x: x.find_element('xpath','/html/body/div/div[1]/div[1]/form[2]/div[4]/div[2]/input'))
         search.click()
-        sleep(0.005*j+0.6)
+        sleep(0.3)
 
         source = WebDriverWait(driver, 2).until(
             lambda x: x.find_element('xpath','/html/body/div/div[1]/div[5]/p[1]'))
 
         source = source.get_attribute('outerHTML')
 
-        #text = text.find_element('xpath','.//*[@id="sidebar_content"]/p[1]').text
-
         soup = str(BeautifulSoup(source, 'html.parser').p)
         distance = get_km(soup)
         distances[i,j] = int(distance)
         distances[j,i] = int(distance)
-        print(distances)
         text_area1.clear()
         text_area2.clear()
 
     
 ##################################
-# Create data file
+# Create AMPL data file
 ##################################
-
 
 distances = distances.astype('int64')
 n_city = f'''param N:= {n};\n'''
@@ -107,26 +102,28 @@ with open('tsp.dat', 'w') as f:
 
 # Connect to neos server
 website = 'https://neos-server.org/neos/solvers/lp:CPLEX/AMPL.html'
-mail = 'mar1fer1per@gmail.com'
 driver.get(website)
-
 
 text_area1 = WebDriverWait(driver, 1).until(
     lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[1]/div/input'))
 text_area1.send_keys(f'{dir_path[0:(len(dir_path)-10)]}/tsp.mod')
 sleep(0.1)
+
 text_area2 = WebDriverWait(driver, 1).until(
     lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[2]/div/input'))
 text_area2.send_keys(f'{dir_path[0:(len(dir_path)-10)]}/tsp.dat')
 sleep(0.2)
+
 text_area3 = WebDriverWait(driver, 1).until(
     lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[3]/div/input'))
 text_area3.send_keys(f'{dir_path[0:(len(dir_path)-10)]}/tsp.run')
 sleep(0.3)
+
 text_area4 = WebDriverWait(driver, 1).until(
     lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[5]/input[3]'))
 text_area4.send_keys(mail)
 sleep(0.5)
+
 search = WebDriverWait(driver, 1).until(
     lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/center/input[1]'))
 search.click()
