@@ -4,8 +4,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 import pandas as pd
 import numpy as np
 from time import sleep
-
-
+import os
+dir_path = os.path.realpath(__file__)
 def get_km(html_source):
     first = True
     ind1 = 0
@@ -90,11 +90,33 @@ for i in range(n):
         dist = f'{i+1} {dist};\n'
     content = f'{content}{dist}'
 
-with open('../AMPL/tsp.dat', 'w') as f:
+with open('tsp.dat', 'w') as f:
     f.write(content)
 
 
 
+# Connect to neos server
+website = 'https://neos-server.org/neos/solvers/lp:CPLEX/AMPL.html'
+mail = 'mar1fer1per@gmail.com'
+driver.get(website)
 
 
-
+text_area1 = WebDriverWait(driver, 1).until(
+    lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[1]/div/input'))
+text_area1.send_keys(f'{dir_path[0:(len(dir_path)-7)]}/tsp.mod')
+sleep(0.1)
+text_area2 = WebDriverWait(driver, 1).until(
+    lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[2]/div/input'))
+text_area2.send_keys(f'{dir_path[0:(len(dir_path)-7)]}/tsp.dat')
+sleep(0.2)
+text_area3 = WebDriverWait(driver, 1).until(
+    lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[3]/div/input'))
+text_area3.send_keys(f'{dir_path[0:(len(dir_path)-7)]}/tsp.run')
+sleep(0.3)
+text_area4 = WebDriverWait(driver, 1).until(
+    lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[5]/input[3]'))
+text_area4.send_keys(mail)
+sleep(0.5)
+search = WebDriverWait(driver, 1).until(
+    lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/center/input[1]'))
+search.click()
