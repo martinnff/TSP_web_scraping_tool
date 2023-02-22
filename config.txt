@@ -1,4 +1,5 @@
 'your_mail@mail.com'
+'/path/to/chromedriver'
 'Barcelona, spain'
 'Madrid, spain'
 'Sevilla, spain'

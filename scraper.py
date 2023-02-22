@@ -5,7 +5,17 @@ import pandas as pd
 import numpy as np
 from time import sleep
 import os
+
+
+with open('config.txt') as f:
+    lines = f.readlines()
+mail = lines[0]
+path = lines[1]
+locations = lines[2:]
+
 dir_path = os.path.realpath(__file__)
+
+# Function to extract the distance in km from the html source
 def get_km(html_source):
     first = True
     ind1 = 0
@@ -28,7 +38,7 @@ path = '/home/martin/chromedriver_linux64/chromedriver'
 driver = webdriver.Chrome(path)
 driver.get(website)
 
-locations = ['Barcelona, spain','Madrid, spain','Sevilla, spain','Granada, spain','Paris, france','Genova, italy']
+
 n = len(locations)
 distances = np.zeros([n,n])
 
@@ -103,15 +113,15 @@ driver.get(website)
 
 text_area1 = WebDriverWait(driver, 1).until(
     lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[1]/div/input'))
-text_area1.send_keys(f'{dir_path[0:(len(dir_path)-7)]}/tsp.mod')
+text_area1.send_keys(f'{dir_path[0:(len(dir_path)-10)]}/tsp.mod')
 sleep(0.1)
 text_area2 = WebDriverWait(driver, 1).until(
     lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[2]/div/input'))
-text_area2.send_keys(f'{dir_path[0:(len(dir_path)-7)]}/tsp.dat')
+text_area2.send_keys(f'{dir_path[0:(len(dir_path)-10)]}/tsp.dat')
 sleep(0.2)
 text_area3 = WebDriverWait(driver, 1).until(
     lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[3]/div/input'))
-text_area3.send_keys(f'{dir_path[0:(len(dir_path)-7)]}/tsp.run')
+text_area3.send_keys(f'{dir_path[0:(len(dir_path)-10)]}/tsp.run')
 sleep(0.3)
 text_area4 = WebDriverWait(driver, 1).until(
     lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/div[5]/input[3]'))
@@ -120,3 +130,5 @@ sleep(0.5)
 search = WebDriverWait(driver, 1).until(
     lambda x: x.find_element('xpath','/html/body/div[1]/form/div[2]/div[2]/center/input[1]'))
 search.click()
+
+driver.quit()
