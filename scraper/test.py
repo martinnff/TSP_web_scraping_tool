@@ -65,5 +65,36 @@ for i in range(len(locations)):
         text_area1.clear()
         text_area2.clear()
 
+    
+##################################
+# Create data file
+##################################
+
+
+distances = distances.astype('int64')
+n_city = f'''param N:= {n};\n'''
+
+index = f'{np.arange(1,n+1)}'
+index = index[1:(len(index)-1)]
+
+dist_matrix = f'''param C: {index}:=\n'''
+
+content = f'{n_city}{dist_matrix}'
+
+for i in range(n):
+    dist = f'{distances[i,:]}'
+    dist = dist[1:(len(dist)-1)]
+    if(i<(n-1)):
+        dist = f'{i+1} {dist}\n'
+    else:
+        dist = f'{i+1} {dist};\n'
+    content = f'{content}{dist}'
+
+with open('../AMPL/tsp.dat', 'w') as f:
+    f.write(content)
+
+
+
+
 
 
