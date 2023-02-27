@@ -14,9 +14,10 @@ Download, unzip the repository and edit the config.txt file. The first line shou
 'Madrid, spain'
 'Sevilla, spain'
 'Granada, spain'
+
 ```
 
-Once the config file is correcltly writen simply run the scraper file.
+Once the config file is correctly writen, simply run the scraper file.
 
 ```{python}
 python3 scraper.py
