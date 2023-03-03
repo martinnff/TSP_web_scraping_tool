@@ -1,4 +1,3 @@
-#This was modified by Diego
 
 # Traveling salesman problem with selenium scraper
 
