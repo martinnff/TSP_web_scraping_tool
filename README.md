@@ -6,7 +6,7 @@ In this project was developed a scraper bot using selenium. This bot automatize 
 ### Usage
 
 
-Download, unzip the repository and edit the config.txt file. The first line should contain the email were you want to get sent your results, the second line should have the path to the chrome webdriver and the folowing lines the search terms for each location.
+Download and unzip the repository, If you don't have chrome driver download it from the official web site(https://chromedriver.chromium.org/downloads). Edit the config.txt file, the first line should contain the email were you want to get sent your results and the second the path to the chrome webdrivet. The folowing lines contain the search terms for each location.
 
 ```
 'your_mail@mail.com'
